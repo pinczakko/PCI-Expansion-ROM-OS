@@ -1,10 +1,7 @@
 # README
 
-=======================================================================================
-     This file explains the changes have been done from the first version of this
-     operating system kernel.
-=======================================================================================
-
+This file explains the changes have been done from the first version of this
+operating system kernel.
 
 ##	1. The "cumbersome" version
 	
@@ -72,16 +69,20 @@ b. loader2.asm ; this file contains the assembly code to switch the machine from
 		mode and also contains a jump into the C-compiled kernel code.Its size is 512bytes,
 		after assembled.
 
---> Step 2a: assemble loader1.asm and loader2.asm by invoking:
-	nasm -fbin [filename] -o [target filename] 
-in the command line. 
+#### Step 2a: assemble loader1.asm and loader2.asm by invoking:
+	
+		```nasm -fbin [filename] -o [target filename] ```
 
---> Step 2b: combine the resulting binary from Step 2a.
+	in the command line. 
+
+#### Step 2b: combine the resulting binary from Step 2a.
 	To merge the file I use mergebin utility. Invoke : 
-	mergebin loader1.bin loader2.bin loader.bin 
-in the command line to obtain it. Becareful not to swap the filename position 
-since mergebin will put the first filename argument in the beginning of the resulting file,
-and so forth.
+	
+		``` mergebin loader1.bin loader2.bin loader.bin ```
+
+	in the command line to obtain it. Becareful not to swap the filename position 
+	since mergebin will put the first filename argument in the beginning of the 
+    resulting file, and so forth.
 
 
 ### Step 3: Build the C kernel code
