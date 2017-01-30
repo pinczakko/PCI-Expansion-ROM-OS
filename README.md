@@ -1,9 +1,9 @@
 # README
 
 This file explains the changes have been done from the first version of this
-operating system kernel.
+operating system _archaic_ kernel.
 
-##	1. The "cumbersome" version
+##	How to Build The Kernel Binary - The "cumbersome" version
 	
 This is the explanation of how to build the very first version which place all 
 the source files in one directory, it is cumbersome, but it works. It is still here to 
@@ -113,7 +113,7 @@ Note: I'm using 1024 bytes as the "extended" file size for the C kernel binary h
 
 ### Step 4: Merge the kernel loader and the C kernel
 
-	Merge the C compiled code (kernel.bin) and the assembly code (loader.bin). Invoke 
+Merge the C compiled code (kernel.bin) and the assembly code (loader.bin). Invoke 
 the following command:
 
 	mergebin loader.bin kernel.bin boot.bin
@@ -133,7 +133,7 @@ your LAN/NIC card (or another PCI expansion card) flash rom chip.
 
 
 
-##	2. Updated 10 February 2004, using Makefile support.
+## How to Build The Kernel Binary - Via The Makefile (10 February 2004 Update).
 
 With the makefile support, you only need to invoke:	
 
@@ -160,11 +160,8 @@ any suggestion ???
 please mail me: darmawan.salihun(at)gmail.com
 
 
-#################################################################################################
-#																								#
-#		Successfully modded PCI CARDs															#
-#																								#
-#################################################################################################
+## Successfully modded PCI CARDs															
+---------------------------------
 
 The following cards have been successfully "implanted" with the resulting binary from this
 source code with little modification(s):
