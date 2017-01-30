@@ -39,7 +39,7 @@ The sources needed to build all of the tools are provided in the utility directo
 If you are using gcc, then just invoke it as follows (for each file):
 gcc [source_filename] -o [target_filename]
 
-Explanation of the tools
+#### Explanation of the tools
 ------------------------
 
 a. _mergebin_, this tools is used to combine 2 binary file (actually anyfile) into a 
@@ -69,25 +69,26 @@ b. loader2.asm ; this file contains the assembly code to switch the machine from
 		mode and also contains a jump into the C-compiled kernel code.Its size is 512bytes,
 		after assembled.
 
-#### Step 2a: assemble loader1.asm and loader2.asm by invoking:
+#### Step 2a: assemble loader1.asm and loader2.asm 
+Invoke the following command to carry-out this step:
 	
-		```nasm -fbin [filename] -o [target filename] ```
+```nasm -fbin [filename] -o [target filename] ```
 
-	in the command line. 
+in the command line. 
 
 #### Step 2b: combine the resulting binary from Step 2a.
-	To merge the file I use mergebin utility. Invoke : 
+To merge the file I use mergebin utility. Invoke : 
 	
-		``` mergebin loader1.bin loader2.bin loader.bin ```
+``` mergebin loader1.bin loader2.bin loader.bin ```
 
-	in the command line to obtain it. Becareful not to swap the filename position 
-	since mergebin will put the first filename argument in the beginning of the 
-    resulting file, and so forth.
+in the command line to obtain it. Becareful not to swap the filename position 
+since mergebin will put the first filename argument in the beginning of the 
+resulting file, and so forth.
 
 
 ### Step 3: Build the C kernel code
 
-	Compile and link the C sources for the kernel which are located in the kernel directory.
+Compile and link the C sources for the kernel which are located in the kernel directory.
 To do so, invoke the following command:
 
 ```gcc -c video.c -o video.o```
@@ -105,7 +106,7 @@ We're not done yet !!!.
 Then use zeroextend utility to extend the file into multiple of 512 bytes 
 (since we're building a ROM file here d00d) as follows:
 
-	```zeroextend kernel.bin 1024```
+	zeroextend kernel.bin 1024
 
 Note: I'm using 1024 bytes as the "extended" file size for the C kernel binary here.
 
@@ -115,16 +116,16 @@ Note: I'm using 1024 bytes as the "extended" file size for the C kernel binary h
 	Merge the C compiled code (kernel.bin) and the assembly code (loader.bin). Invoke 
 the following command:
 
-	```mergebin loader.bin kernel.bin boot.bin```
+	mergebin loader.bin kernel.bin boot.bin
 
 Note: Again, take care of the position of the parameters! mergebin is sensitive to it.
 
 
 ### Step 5: Patch the needed checksums
 
-	Invoke the following command:
+Invoke the following command:
 
-	```patch2pnprom boot.bin```
+	patch2pnprom boot.bin
 
 to patch all the wrong checksums in the binary so that boot.bin will become a valid ROM file. 
 This file is the "ready to burn ROM file", use rtflash or another flashing tool to burn it into 
