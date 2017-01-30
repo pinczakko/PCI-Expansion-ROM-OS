@@ -1,5 +1,4 @@
- README
-----------
+# README
 
 =======================================================================================
      This file explains the changes have been done from the first version of this
@@ -7,20 +6,17 @@
 =======================================================================================
 
 
-/**************************************************************************************
-	1. The "cumbersome" version
-**************************************************************************************/ 
-	This is the explanation of how to build the very first version which place all 
+##	1. The "cumbersome" version
+	
+This is the explanation of how to build the very first version which place all 
 the source files in one directory, it is cumbersome, but it works. It is still here to 
 give insight of how actually the code works, rather than reading all the "twisty" 
 makefile, it's better to read this file to know how exactly this thing works.
 
-The following guide explains how to build a working "ancient kernel" from 
-the sources in one directory.
----------------------------------------------------------------------------------------
+The following guide explains how to build a working "ancient kernel" 
+from the sources in one directory.
 
-Step 0: The assumptions in the following steps
------------------------------------------------
+### Step 0: The assumptions in the following steps
 
 a. You have to put all the needed sources back into one directory, then invoke all 
 the "command" mentioned here from within that directory if you wish to do this.
@@ -40,8 +36,7 @@ during the booting process, which means our kernel is not executed at all.
 d. You have the compiler and assembler needed. Nasm and GCC are required to build the
 sources that I provided.
 
-Step 1: Build the tools needed
--------------------------------
+### Step 1: Build the tools needed
  	
 The sources needed to build all of the tools are provided in the utility directory.
 If you are using gcc, then just invoke it as follows (for each file):
@@ -50,22 +45,21 @@ gcc [source_filename] -o [target_filename]
 Explanation of the tools
 ------------------------
 
-a. mergebin, this tools is used to combine 2 binary file (actually anyfile) into a 
+a. _mergebin_, this tools is used to combine 2 binary file (actually anyfile) into a 
    single file. It's sensitive to position of the input parameters, i.e. the input filenames, the second input filename will be appended to the first input filename and the third 
 input filename
 	is the target binary file that we're building.
 
-b. zeroextend, this tool is used to append zero(s) (0h) into a file until the file matches the 
+b. _zeroextend_, this tool is used to append zero(s) (0h) into a file until the file matches the 
 	size we're targeting (in bytes), which is the input parameter. For example to "zeroextend" 
 	a file into 1024 byte invoke: ```zeroextend [input_filename] 1024```
 
-c. patch2pnprom, this tool is used to patch the 8-bit checksum of a "pseudo PCI ROM" file into a
+c. _patch2pnprom_, this tool is used to patch the 8-bit checksum of a "pseudo PCI ROM" file into a
 	valid PCI pnprom. Frankly, it calculates the checksums and patches the needed header 
 	format as needed.
 
 
-Step 2: Build the kernel loader
--------------------------------
+### Step 2: Build the kernel loader
 
 The source files are in the loader directory. Here's the explanation:
 
@@ -90,14 +84,15 @@ since mergebin will put the first filename argument in the beginning of the resu
 and so forth.
 
 
-Step 3: Build the C kernel code
---------------------------------
+### Step 3: Build the C kernel code
 
 	Compile and link the C sources for the kernel which are located in the kernel directory.
 To do so, invoke the following command:
 
 ```gcc -c video.c -o video.o```
+
 ```gcc -c ports.c -o ports.o```
+
 ```ld -o kernel.bin -Ttext 0x7E00 -e main -N --oformat binary main.o video.o ports.o```
 
 Note: The last line means, link the files with main() function as entry point, with plain binary 
@@ -105,24 +100,26 @@ format and the code will begin at 0x7E00 when executed, since the first 512 byte
 used by loader2.bin, and with no page alignment (one page is 4Kbyte).
 
 We're not done yet !!!. 
+
 Then use zeroextend utility to extend the file into multiple of 512 bytes 
 (since we're building a ROM file here d00d) as follows:
-	zeroextend kernel.bin 1024
+
+	```zeroextend kernel.bin 1024```
+
 Note: I'm using 1024 bytes as the "extended" file size for the C kernel binary here.
 
 
-Step 4: Merge the kernel loader and the C kernel
--------------------------------------------------
+### Step 4: Merge the kernel loader and the C kernel
 
 	Merge the C compiled code (kernel.bin) and the assembly code (loader.bin). Invoke 
 the following command:
 
-	mergebin loader.bin kernel.bin boot.bin
+	```mergebin loader.bin kernel.bin boot.bin```
+
 Note: Again, take care of the position of the parameters! mergebin is sensitive to it.
 
 
-Step 5: Patch the needed checksums
------------------------------------
+### Step 5: Patch the needed checksums
 
 	Invoke the following command:
 
@@ -134,24 +131,31 @@ your LAN/NIC card (or another PCI expansion card) flash rom chip.
 
 
 
-/*************************************************************************************************
-	2. Updated 10 February 2004, using makefile support.
-*************************************************************************************************/
+##	2. Updated 10 February 2004, using Makefile support.
 
-With the makefile support, you only need to invoke:	```make ```
-in this directory to make the OS and invoke : ```make clean```
+With the makefile support, you only need to invoke:	
+
+```make ```
+
+in this directory to make the OS and invoke : 
+
+```make clean```
+
 to clean up all the files generated.
 
 Note:
 -----
 You have to provide the following program in an executable path within your "shell":
+
 a. nasm 
+
 b. gcc
+
 I used Linux (with bash shell) as my development environment, and it works just fine.
-I've tried using MinGW32 and MSys, the makefile works just fine but I don't know why gcc unable 
-to output the "pure binary" file of the kernel (kernel.bin) correctly, any suggestion ??? 
-please mail me here:
-darmawan.salihun(at)gmail.com
+I've tried using MinGW32 and MSys, the makefile works just fine but I don't know why 
+gcc unable to output the "pure binary" file of the kernel (kernel.bin) correctly, 
+any suggestion ??? 
+please mail me: darmawan.salihun(at)gmail.com
 
 
 #################################################################################################
@@ -159,6 +163,7 @@ darmawan.salihun(at)gmail.com
 #		Successfully modded PCI CARDs															#
 #																								#
 #################################################################################################
+
 The following cards have been successfully "implanted" with the resulting binary from this
 source code with little modification(s):
 
@@ -176,3 +181,4 @@ make it behave as if it's a real PCI NIC except for the peculiarity mentioned ab
 boot from the card (through it's BEV routine) if I select boot from LAN in the BIOS setup of 
 my mainboard. Also note that the flash program for this card ONLY ACCEPT BINARY FILE OF LENGTH 
 64KB, if you fail to do so, the flash program will not flash the binary at all :(.
+
