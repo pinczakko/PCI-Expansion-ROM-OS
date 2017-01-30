@@ -5,7 +5,7 @@
 include ../var.mak
 
 CC= gcc
-CFLAGS= -02 -Wall -c
+CFLAGS= -O2 -Wall -c
 LD= gcc
 LDFLAGS= 
 

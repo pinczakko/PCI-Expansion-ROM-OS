@@ -154,10 +154,9 @@ a. nasm
 b. gcc
 
 I used Linux (with bash shell) as my development environment, and it works just fine.
-I've tried using MinGW32 and MSys, the makefile works just fine but I don't know why 
-gcc unable to output the "pure binary" file of the kernel (kernel.bin) correctly, 
-any suggestion ??? 
-please mail me: darmawan.salihun(at)gmail.com
+I've tried using MinGW32 and MSys, the _Makefile_ works just fine but I don't know why 
+gcc unable to output the "pure binary" file of the kernel (kernel.bin) correctly. 
+Any suggestion ??? Please mail me: darmawan.salihun(at)gmail.com
 
 
 ## Successfully modded PCI CARDs															

@@ -1,11 +1,13 @@
-const char *tutorial3;
+#include "io.h"
+
+const char *os_string;
 
 void main()
 {
   clrscr();
-  print(tutorial3);
+  print(os_string);
 
   for(;;);
 }
 
-const char *tutorial3 = "Pinczakko OS version 0.0.1";
+const char *os_string = "Pinczakko OS version 0.0.1";

@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 
 #define DIAGNOSTIC
 
@@ -29,7 +30,7 @@ int main(int argc, char* argv[])
   lTargetFileSize = strtoul(argv[2], pchTemp, 10);
 
 #ifdef DIAGNOSTIC
-  printf("lTargetFileSize = %d\n", lTargetFileSize);
+  printf("lTargetFileSize = %ld\n", lTargetFileSize);
 #endif //DIAGNOSTIC
 
   if(fseek(fp1, 0, SEEK_END) != 0)
@@ -56,8 +57,8 @@ int main(int argc, char* argv[])
   lPaddingSize = lTargetFileSize - lFileSize;
 
 #ifdef DIAGNOSTIC
-  printf("lPaddingSize = %d\n", lPaddingSize);
-  printf("lFileSize= %d\n", lFileSize);
+  printf("lPaddingSize = %ld\n", lPaddingSize);
+  printf("lFileSize= %ld\n", lFileSize);
 #endif //DIAGNOSTIC  
 
   pchBuff = (char*) malloc(sizeof(char) * lPaddingSize );

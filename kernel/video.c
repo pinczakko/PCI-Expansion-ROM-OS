@@ -1,3 +1,5 @@
+#include "io.h"
+
 void clrscr()
 {
   unsigned char *vidmem = (unsigned char *)0xB8000;

@@ -11,12 +11,13 @@ typedef unsigned char UCHAR;
 typedef unsigned int UINT;
 typedef unsigned long ULONG;
 
+int MergeFile(FILE* fp1, FILE* fp2, FILE* fpOutput);
+
 int main(int argc, char* argv[])
 {
 	FILE*	fp1;
 	FILE*   fp2;
 	FILE*   fp3;
-
 
 	if(argc != 4) /* not enough parameter */
 	{
