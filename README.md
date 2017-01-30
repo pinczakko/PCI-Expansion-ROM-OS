@@ -133,7 +133,7 @@ your LAN/NIC card (or another PCI expansion card) flash rom chip.
 
 
 
-## How to Build The Kernel Binary - Via The Makefile (10 February 2004 Update).
+## How to Build The Kernel Binary - The Makefile Version (10 February 2004 Update)
 
 With the makefile support, you only need to invoke:	
 
@@ -161,7 +161,6 @@ please mail me: darmawan.salihun(at)gmail.com
 
 
 ## Successfully modded PCI CARDs															
----------------------------------
 
 The following cards have been successfully "implanted" with the resulting binary from this
 source code with little modification(s):
