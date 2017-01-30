@@ -1,3 +1,6 @@
+ README
+----------
+
 =======================================================================================
      This file explains the changes have been done from the first version of this
      operating system kernel.
@@ -18,13 +21,14 @@ the sources in one directory.
 
 Step 0: The assumptions in the following steps
 -----------------------------------------------
+
 a. You have to put all the needed sources back into one directory, then invoke all 
 the "command" mentioned here from within that directory if you wish to do this.
 
 b. Every binary/executable tool mentioned here is built from their respective 
 source and are named the same as their source file, except for the extension, i.e. 
 in the binary/executable tool no file extension used at all, while in the source I'm
-using *.c extension. 
+using ``` *.c``` extension. 
 
 c. You already knows the PCI vendor ID and Device ID of the card you are using. They are
 needed since if you are using a different card than mine, YOU HAVE TO CHANGE THOSE IDs
@@ -38,19 +42,23 @@ sources that I provided.
 
 Step 1: Build the tools needed
 -------------------------------
- 	The sources needed to build all of the tools are provided in the utility directory.
+ 	
+The sources needed to build all of the tools are provided in the utility directory.
 If you are using gcc, then just invoke it as follows (for each file):
 gcc [source_filename] -o [target_filename]
 
 Explanation of the tools
 ------------------------
-a. mergebin, this tools is used to combine 2 binary file (actually anyfile) into a single file.
-	It's sensitive to position of the input parameters, i.e. the input filenames, the second
-	input filename will be appended to the first input filename and the third input filename
+
+a. mergebin, this tools is used to combine 2 binary file (actually anyfile) into a 
+   single file. It's sensitive to position of the input parameters, i.e. the input filenames, the second input filename will be appended to the first input filename and the third 
+input filename
 	is the target binary file that we're building.
+
 b. zeroextend, this tool is used to append zero(s) (0h) into a file until the file matches the 
 	size we're targeting (in bytes), which is the input parameter. For example to "zeroextend" 
-	a file into 1024 byte invoke: zeroextend [input_filename] 1024
+	a file into 1024 byte invoke: ```zeroextend [input_filename] 1024```
+
 c. patch2pnprom, this tool is used to patch the 8-bit checksum of a "pseudo PCI ROM" file into a
 	valid PCI pnprom. Frankly, it calculates the checksums and patches the needed header 
 	format as needed.
@@ -58,11 +66,14 @@ c. patch2pnprom, this tool is used to patch the 8-bit checksum of a "pseudo PCI 
 
 Step 2: Build the kernel loader
 -------------------------------
-	The source files are in the loader directory. Here's the explanation:
+
+The source files are in the loader directory. Here's the explanation:
+
 a. loader1.asm ; this file contains the PCI PnP rom header of the rom to be built, and some loader 
 				routines.Its function is to load the operating system code from ROM to RAM during 
 				the int 19h, which invokes the BEV that we set in this ROM source code. Its size 
 				is 512 bytes, after assembled.
+
 b. loader2.asm ; this file contains the assembly code to switch the machine from real to protected 
 		mode and also contains a jump into the C-compiled kernel code.Its size is 512bytes,
 		after assembled.
@@ -81,11 +92,14 @@ and so forth.
 
 Step 3: Build the C kernel code
 --------------------------------
+
 	Compile and link the C sources for the kernel which are located in the kernel directory.
 To do so, invoke the following command:
-gcc -c video.c -o video.o
-gcc -c ports.c -o ports.o
-ld -o kernel.bin -Ttext 0x7E00 -e main -N --oformat binary main.o video.o ports.o
+
+```gcc -c video.c -o video.o```
+```gcc -c ports.c -o ports.o```
+```ld -o kernel.bin -Ttext 0x7E00 -e main -N --oformat binary main.o video.o ports.o```
+
 Note: The last line means, link the files with main() function as entry point, with plain binary 
 format and the code will begin at 0x7E00 when executed, since the first 512 bytes from 0x7C00 is 
 used by loader2.bin, and with no page alignment (one page is 4Kbyte).
@@ -99,16 +113,21 @@ Note: I'm using 1024 bytes as the "extended" file size for the C kernel binary h
 
 Step 4: Merge the kernel loader and the C kernel
 -------------------------------------------------
+
 	Merge the C compiled code (kernel.bin) and the assembly code (loader.bin). Invoke 
 the following command:
+
 	mergebin loader.bin kernel.bin boot.bin
 Note: Again, take care of the position of the parameters! mergebin is sensitive to it.
 
 
 Step 5: Patch the needed checksums
 -----------------------------------
+
 	Invoke the following command:
-	patch2pnprom boot.bin
+
+	```patch2pnprom boot.bin```
+
 to patch all the wrong checksums in the binary so that boot.bin will become a valid ROM file. 
 This file is the "ready to burn ROM file", use rtflash or another flashing tool to burn it into 
 your LAN/NIC card (or another PCI expansion card) flash rom chip.
@@ -118,13 +137,13 @@ your LAN/NIC card (or another PCI expansion card) flash rom chip.
 /*************************************************************************************************
 	2. Updated 10 February 2004, using makefile support.
 *************************************************************************************************/
-	With the makefile support, you only need to invoke:
-		make 
-in this directory to make the OS and invoke :
-		make clean
+
+With the makefile support, you only need to invoke:	```make ```
+in this directory to make the OS and invoke : ```make clean```
 to clean up all the files generated.
-------
+
 Note:
+-----
 You have to provide the following program in an executable path within your "shell":
 a. nasm 
 b. gcc
@@ -132,7 +151,7 @@ I used Linux (with bash shell) as my development environment, and it works just 
 I've tried using MinGW32 and MSys, the makefile works just fine but I don't know why gcc unable 
 to output the "pure binary" file of the kernel (kernel.bin) correctly, any suggestion ??? 
 please mail me here:
-darmawan.mappatutu.s@students.itb.ac.id
+darmawan.salihun(at)gmail.com
 
 
 #################################################################################################
